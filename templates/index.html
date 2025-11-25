@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Annotator Tool</title>
+    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"></script>
+    <script src="/static/js/app.js"></script>
+    <style>
+        body {
+            background-color: #400f39;
+            margin: 0;
+        }            
+        .page-container {
+            display: flex;
+        }
+        #screenshot-container {
+            width: calc(100% - 600px);
+        }
+        .menu {
+            color: white;
+            background-color: #1c1b1a;
+            width: 600px;
+            padding: 8px;
+        }
+        #action-description, #task-prompt, #website, #final-answer {
+            width: 100%;    
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div id="screenshot-container">
+        {% if not screenshot %}
+            <p>Load a webpage first</p>
+        {% endif %}
+        
+        </div>
+    
+        <div class="menu">
+            <form 
+                hx-post="/load-and-start"
+                hx-target="#screenshot-container"
+                hx-swap="innerHTML">
+                <label for="website">Website</label>
+                <input id="website" name="url" type="text" placeholder="https://www.mediaexpert.pl/">
+                <br>
+                <label for="task-prompt">Task Prompt:</label>
+                <textarea id="task-prompt" name="task-prompt" rows="10"></textarea>
+                <br>
+                <button type="submit">Load and start!</button>
+            </form>
+
+            <br>
+            <p>Select action:</p>
+            <div id="actions">
+                <button id="button-click" onclick="pickAction('click')" disabled>Click</button>
+                <button id="button-scroll-up" onclick="pickAction('scroll-up')" disabled>Scroll Up</button>
+                <button id="button-scroll-down" onclick="pickAction('scroll-down')" disabled>Scroll Down</button>
+
+                <form 
+                    id="action-form"
+                    hx-post="/append-action"
+                    hx-target="#screenshot-container"
+                    hx-swap="innerHTML">
+                    <textarea id="action-description" name="action-description" rows="10" placeholder="description of the action..." disabled></textarea>
+                    
+                    <input id="action-name" name="action-name" type="hidden">
+                    <input id="offset-x" name="offset-x" type="hidden">
+                    <input id="offset-y" name="offset-y" type="hidden">
+                    <button id="button-submit" type="submit" disabled>Accept</button>
+                </form>
+            </div>
+            
+            <br>
+            <form
+                hx-post="/accept-and-finish"
+                hx-target="#screenshot-container"
+                hx-swap="innerHTML">
+                <label for="final-answer">Final Answer:</label>
+                <textarea id="final-answer" name="final-answer" rows="10" disabled></textarea>
+                <button id="button-finish" type="submit" disabled>Accept and finish!</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
