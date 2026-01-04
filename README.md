@@ -1,6 +1,6 @@
 ### About:
 
-This is a tool that saves actions when browsing a website. Can be used to train models to use websites. 
+This is a tool that generates data (click actions, screenshots) when browsing a website. 
 
 ### Requirements:
 
