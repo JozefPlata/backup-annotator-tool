@@ -1,6 +1,6 @@
 ### About:
 
-This was a test project during recruitment process. Now it's just a backup.
+This is a tool that saves actions when browsing a website. Can be used to train models to use websites. 
 
 ### Requirements:
 
